@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xenodermia Pigmentosa — Mutación Genética</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="dna-canvas-container" id="bg-dna"></div>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="img/logo-ciencia.ico">
+            <span>Xenodermia Pigmentosa</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#inicio" class="active">Inicio</a></li>
+            <li><a href="#que-es">La Mutación</a></li>
+            <li><a href="#adn">ADN y UV</a></li>
+            <li><a href="#mecanismo">Mecanismo</a></li>
+            <li><a href="simulador.html">Simulador</a></li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <section class="hero" id="inicio">
+            <div class="hero-content fade-in">
+                <div class="hero-tag">
+                    <span class="dot"></span>
+                    Genética Molecular
+                </div>
+                <h1>
+                    <span class="highlight">Xenodermia</span><br>
+                    Pigmentosa
+                </h1>
+                <p>
+                    Una mutación genética rara que altera la capacidad natural de la piel para reparar el daño causado por la radiación ultravioleta, dejando el ADN celular vulnerable a mutaciones en cadena.
+                </p>
+                <div class="hero-actions">
+                    <a href="#que-es" class="btn btn-primary">
+                        Explorar la mutación
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a href="simulador.html" class="btn btn-secondary">
+                        Abrir simulador
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="dna-separator">A T G C — C G T A — G C A T</div>
+
+        <section id="que-es">
+            <div class="section-header fade-in">
+                <span class="section-label">La Mutación</span>
+                <h2 class="section-title">¿Qué es la Xenodermia Pigmentosa?</h2>
+                <p class="section-desc">
+                    Una condición genética que compromete los mecanismos de defensa y reparación del ADN en las células de la piel.
+                </p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    </div>
+                    <h3>Defecto en XPD</h3>
+                    <p>La mutación se localiza en el gen ERCC2/XPD, que codifica una helicasa esencial para la transcripción y reparación del ADN por nucleótidos (NER). Esta enzima abre la doble hélice permitiendo la reparación.</p>
+                </div>
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <h3>Herencia Autosómica Recesiva</h3>
+                    <p>Se hereda de forma autosómica recesiva. Ambos padres deben ser portadores del alelo mutado. Los portadores heterocigotos son generalmente asintomáticos, lo que dificulta la detección temprana.</p>
+                </div>
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <h3>Hipersensibilidad UV</h3>
+                    <p>Los individuos afectados muestran una extrema sensibilidad a la radiación UV. Incluso exposiciones solares breves provocan daño severo en el ADN que no puede ser reparado adecuadamente.</p>
+                </div>
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                    </div>
+                    <h3>Manifestaciones Cutáneas</h3>
+                    <p>Pigmentación irregular, queratosis actínicas precoces, envejecimiento acelerado de la piel y un riesgo significativamente elevado de carcinomas cutáneos y melanomas.</p>
+                </div>
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                    </div>
+                    <h3>Diagnóstico Molecular</h3>
+                    <p>El diagnóstico se confirma mediante secuenciación genética del gen ERCC2, pruebas de sensibilidad celular a UV y análisis de la capacidad de reparación del ADN in vitro.</p>
+                </div>
+                <div class="info-card fade-in">
+                    <div class="info-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Protección y Manejo</h3>
+                    <p>Evitación total de exposición solar, uso de fotoprotectores de amplio espectro, ropa UV-protectiva, vigilancia dermatológica continua y screenings regulares de cáncer.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detail-section" id="adn">
+            <div class="detail-inner">
+                <div class="section-header fade-in">
+                    <span class="section-label">Daño Solar al ADN</span>
+                    <h2 class="section-title">Radiación UV y Mutaciones</h2>
+                    <p class="section-desc">
+                        Cómo la radiación ultravioleta destruye las bases del ADN y por qué la reparación es crucial.
+                    </p>
+                </div>
+
+                <div class="detail-grid fade-in">
+                    <div class="detail-text">
+                        <h3>Formación de Dímeros de Pirimidina</h3>
+                        <p>
+                            La radiación UV-B (280-315 nm) es absorbida directamente por las bases de timina y citosina del ADN, causando enlaces covalentes anormales entre bases adyacentes. Estos <strong>dímeros de pirimidina</strong> (CPDs) distorsionan la doble hélice e interfieren con la replicación y transcripción.
+                        </p>
+                        <p>
+                            En una persona con Xenodermia Pigmentosa, la enzima XPD no puede abrir correctamente la doble hélice del ADN para permitir que el complejo de reparación NER excise los dímeros. Como resultado, los daños persisten y se acumulan con cada exposición solar.
+                        </p>
+                        <p>
+                            Las consecuencias incluyen transiciones C→T en secuencias de diana UV, mutaciones puntuales en oncogenes como RAS y en genes supresores de tumores como TP53, iniciando el proceso de carcinogénesis.
+                        </p>
+                    </div>
+                    <div class="detail-visual" id="dna-repair-visual">
+                        <canvas id="repair-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="sci-quote fade-in">
+                    <p>"La reparación por nucleótidos es el sistema de defensa más versátil contra el daño ambiental al ADN. Su deficiencia convierte la luz solar — fuente de vida — en un agente mutagénico devastador."</p>
+                    <cite>— Journal of Molecular Biology, DNA Repair Mechanisms</cite>
+                </div>
+
+                <div class="stats-bar fade-in">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="100000">0</div>
+                        <div class="stat-label">Daños por célula / hora</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="99">0</div>
+                        <div class="stat-label">% reparados (sano)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="35">0</div>
+                        <div class="stat-label">% reparados (XPD mutado)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="75">0</div>
+                        <div class="stat-label">x más riesgo cáncer</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="dna-separator">C P D — 6-4 P P — UV DAMAGE</div>
+
+        <section id="mecanismo">
+            <div class="section-header fade-in">
+                <span class="section-label">Mecanismo Molecular</span>
+                <h2 class="section-title">La Ruta de Reparación NER</h2>
+                <p class="section-desc">
+                    El camino molecular que falla en la Xenodermia Pigmentosa.
+                </p>
+            </div>
+
+            <div class="timeline fade-in">
+                <div class="timeline-item">
+                    <span class="year">Paso 01</span>
+                    <h4>Reconocimiento del Daño</h4>
+                    <p>Complejos de proteínas XPC-RAD23B detectan las distorsiones en la doble hélice causadas por los dímeros de pirimidina en el ADN.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">Paso 02</span>
+                    <h4>Verificación (TFIIH)</h4>
+                    <p>El factor de transcripción TFIIH, que contiene XPD, se recluta para verificar la presencia del daño. Aquí XPD intenta abrir la hélice.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">Paso 03 — BLOQUEADO</span>
+                    <h4>Apertura de la Hélice por XPD</h4>
+                    <p style="color: var(--danger);">En la Xenodermia Pigmentosa, XPD tiene una mutación que impide su actividad helicasa. No puede desenrollar el ADN, bloqueando todo el proceso de reparación.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">Paso 04 — NO ALCANZADO</span>
+                    <h4>Excisión y Síntesis</h4>
+                    <p>En personas sanas, las endonucleasas XPF-ERCC1 y XPG cortan el fragmento dañado, y una polimerasa sintetiza una nueva cadena usando la cadena complementaria como molde.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">Paso 05 — NO ALCANZADO</span>
+                    <h4>Unión (Ligación)</h4>
+                    <p>La ADN ligasa sella el fragmento nuevo en la cadena, completando la reparación. Sin este paso, los errores persisten y se replican durante la división celular.</p>
+                </div>
+            </div>
+
+            <table class="comparison-table fade-in" style="margin-top: 4rem;">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Persona Normal</th>
+                        <th>Xenodermia Pigmentosa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Actividad XPD</td>
+                        <td><span class="tag tag-safe">Funcional 100%</span></td>
+                        <td><span class="tag tag-danger">Defectuosa &lt;15%</span></td>
+                    </tr>
+                    <tr>
+                        <td>Reparación de CPDs</td>
+                        <td><span class="tag tag-safe">Eficiente</span></td>
+                        <td><span class="tag tag-danger">Casi nula</span></td>
+                    </tr>
+                    <tr>
+                        <td>Tolerancia UV</td>
+                        <td><span class="tag tag-safe">Normal</span></td>
+                        <td><span class="tag tag-danger">Extremadamente baja</span></td>
+                    </tr>
+                    <tr>
+                        <td>Riesgo cáncer cutáneo</td>
+                        <td><span class="tag tag-safe">Base poblacional</span></td>
+                        <td><span class="tag tag-danger">75x mayor</span></td>
+                    </tr>
+                    <tr>
+                        <td>Acumulación mutaciones UV</td>
+                        <td><span class="tag tag-warning">Baja (reparado)</span></td>
+                        <td><span class="tag tag-danger">Alta y progresiva</span></td>
+                    </tr>
+                    <tr>
+                        <td>Esperanza de vida</td>
+                        <td><span class="tag tag-safe">Normal</span></td>
+                        <td><span class="tag tag-warning">Reducida (formas severas)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="dna-separator">NER — NUCLEOTIDE EXCISION REPAIR</div>
+
+        <section style="text-align: center; padding-bottom: 2rem;">
+            <div class="fade-in">
+                <span class="section-label">Experimenta</span>
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">Simulador de Daño Solar al ADN</h2>
+                <p class="section-desc" style="margin-bottom: 2rem;">
+                    Visualiza en tiempo real cómo la radiación UV afecta el ADN de una persona normal versus alguien con Xenodermia Pigmentosa.
+                </p>
+                <a href="simulador.html" class="btn btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem;">
+                    Abrir simulador 3D
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>Xenodermia Pigmentosa — Proyecto de Genética Molecular y Daño Solar al ADN<br>
+            <span style="opacity: 0.5;">Fines educativos. Datos basados en literatura científica de DNA Repair (2024).</span></p>
+        </footer>
+    </div>
+
+    <script src="js/dna-bg.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

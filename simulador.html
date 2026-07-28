@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Daño Solar al ADN — Xenodermia Pigmentosa</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .sim-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .sim-control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sim-control-group label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sim-slider {
+            -webkit-appearance: none;
+            width: 180px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .sim-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--uv-color);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--uv-glow);
+        }
+
+        .sim-btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-light);
+        }
+
+        .sim-btn.active {
+            background: var(--uv-color);
+            color: var(--bg-primary);
+            border-color: var(--uv-color);
+        }
+
+        .sim-viewport {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sim-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .sim-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sim-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .sim-panel-title .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-normal { background: var(--safe); }
+        .status-mutant { background: var(--danger); }
+
+        .sim-panel-stat {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .sim-canvas-wrap {
+            width: 100%;
+            height: 420px;
+            position: relative;
+        }
+
+        .sim-canvas-wrap canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .sim-panel-footer {
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .sim-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+        }
+
+        .sim-stat strong {
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .uv-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--uv-color);
+            border-radius: 8px;
+            padding: 0.4rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--uv-color);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .uv-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--uv-color);
+            animation: uvPulse 1s infinite;
+        }
+
+        @keyframes uvPulse {
+            0%, 100% { box-shadow: 0 0 4px var(--uv-color); }
+            50% { box-shadow: 0 0 12px var(--uv-color); }
+        }
+
+        .sim-info-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .sim-info-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .sim-info-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .sim-info-value.danger { color: var(--danger); }
+        .sim-info-value.safe { color: var(--safe); }
+        .sim-info-value.warning { color: var(--uv-color); }
+
+        .sim-info-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .legend-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .sim-explanation {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .sim-explanation h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .sim-explanation p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hl-normal { color: var(--dna-normal); font-weight: 600; }
+        .hl-mutant { color: var(--dna-mutant); font-weight: 600; }
+
+        .speed-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        .speed-btn:hover, .speed-btn.active {
+            background: var(--uv-color);
+            color: var(--bg-primary);
+            border-color: var(--uv-color);
+        }
+
+        @media (max-width: 768px) {
+            .sim-viewport { grid-template-columns: 1fr; }
+            .sim-info-bar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <svg viewBox="0 0 32 32" fill="none">
+                <path d="M16 2C16 2 8 8 8 16C8 24 16 30 16 30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M16 2C16 2 24 8 24 16C24 24 16 30 16 30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="10" y1="8" x2="22" y2="8" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="9" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="8" y1="16" x2="24" y2="16" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="9" y1="20" x2="23" y2="20" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+                <line x1="10" y1="24" x2="22" y2="24" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+            </svg>
+            <span>Simulador ADN</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="simulador.html" class="active">Simulador</a></li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper" style="padding-top: 5rem;">
+        <section style="padding-top: 2rem; padding-bottom: 1rem;">
+            <div class="section-header fade-in">
+                <span class="section-label">Simulador Interactivo</span>
+                <h2 class="section-title">Daño Solar al ADN en Tiempo Real</h2>
+                <p class="section-desc">
+                    Compara cómo el ADN de una persona sana repara el daño UV versus el ADN con la mutación Xenodermia Pigmentosa.
+                </p>
+            </div>
+
+            <div class="legend-bar fade-in">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #5a9ab8;"></div>
+                    Base de ADN
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e8b44a;"></div>
+                    Radiación UV
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #b85a5a;"></div>
+                    Dímero de pirimidina (daño)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #6aab7a;"></div>
+                    Enzima de reparación NER
+                </div>
+            </div>
+        </section>
+
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <div class="sim-info-bar fade-in">
+                <div class="sim-info-item">
+                    <div class="sim-info-value warning" id="uv-intensity-display">UV: 5</div>
+                    <div class="sim-info-label">Intensidad UV</div>
+                </div>
+                <div class="sim-info-item">
+                    <div class="sim-info-value safe" id="normal-repair-display">100%</div>
+                    <div class="sim-info-label">ADN Normal — Daño reparado</div>
+                </div>
+                <div class="sim-info-item">
+                    <div class="sim-info-value danger" id="mutant-damage-display">0%</div>
+                    <div class="sim-info-label">ADN Mutado — Daño acumulado</div>
+                </div>
+            </div>
+
+            <div class="sim-controls fade-in">
+                <div class="sim-control-group">
+                    <label>Intensidad UV:</label>
+                    <input type="range" class="sim-slider" id="uv-slider" min="1" max="10" value="5">
+                </div>
+                <div class="sim-control-group">
+                    <label>Velocidad:</label>
+                    <button class="speed-btn" data-speed="0.5">.5x</button>
+                    <button class="speed-btn active" data-speed="1">1x</button>
+                    <button class="speed-btn" data-speed="2">2x</button>
+                </div>
+                <button class="sim-btn active" id="toggle-uv">UV Activo ☀</button>
+                <button class="sim-btn" id="reset-sim">Reset ↺</button>
+            </div>
+
+            <div class="sim-viewport fade-in">
+                <div class="sim-panel">
+                    <div class="sim-panel-header">
+                        <div class="sim-panel-title">
+                            <span class="status-dot status-normal"></span>
+                            ADN Normal — Persona sana
+                        </div>
+                        <span class="sim-panel-stat" id="normal-damage-count">0 daños</span>
+                    </div>
+                    <div class="sim-canvas-wrap" id="normal-dna-wrap">
+                        <div class="uv-badge" id="normal-uv-badge">
+                            <span class="dot"></span>UV ON
+                        </div>
+                    </div>
+                    <div class="sim-panel-footer">
+                        <div class="sim-stat">Daños activos: <strong id="normal-active">0</strong></div>
+                        <div class="sim-stat">Reparados: <strong id="normal-fixed">0</strong></div>
+                        <div class="sim-stat">Eficiencia: <strong id="normal-eff">99%</strong></div>
+                    </div>
+                </div>
+
+                <div class="sim-panel">
+                    <div class="sim-panel-header">
+                        <div class="sim-panel-title">
+                            <span class="status-dot status-mutant"></span>
+                            ADN Mutado — Xenodermia Pigmentosa
+                        </div>
+                        <span class="sim-panel-stat" id="mutant-damage-count">0 daños</span>
+                    </div>
+                    <div class="sim-canvas-wrap" id="mutant-dna-wrap">
+                        <div class="uv-badge" id="mutant-uv-badge">
+                            <span class="dot"></span>UV ON
+                        </div>
+                    </div>
+                    <div class="sim-panel-footer">
+                        <div class="sim-stat">Daños activos: <strong id="mutant-active">0</strong></div>
+                        <div class="sim-stat">Reparados: <strong id="mutant-fixed">0</strong></div>
+                        <div class="sim-stat">Eficiencia: <strong id="mutant-eff">15%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sim-explanation fade-in">
+                <h3>Cómo funciona esta simulación</h3>
+                <p>
+                    Cada segmento del ADN representa una secuencia de bases nitrogenadas (A-T, G-C). La radiación UV (partículas amarillas) impacta el ADN creando <strong>dímeros de pirimidina</strong> (puntos rojos) entre bases adyacentes.
+                </p>
+                <p>
+                    <span class="hl-normal">Panel izquierdo (ADN Normal):</span> Las enzimas NER (puntos verdes) detectan y reparan rápidamente la mayoría del daño. La eficiencia de reparación se mantiene entre 95-99%.
+                </p>
+                <p>
+                    <span class="hl-mutant">Panel derecho (ADN Mutado):</span> La mutación XPD impide la apertura de la hélice, bloqueando la reparación. Los dímeros se acumulan progresivamente, aumentando el riesgo de mutaciones cancerosas.
+                </p>
+            </div>
+        </div>
+
+        <footer style="margin-top: 4rem;">
+            <p>Simulador de Daño Solar al ADN — Xenodermia Pigmentosa<br>
+            <span style="opacity: 0.5;">Modelo simplificado con fines educativos.</span></p>
+        </footer>
+    </div>
+
+    <script src="js/simulator.js"></script>
+</body>
+</html>
